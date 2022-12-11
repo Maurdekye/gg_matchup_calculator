@@ -18,8 +18,7 @@ def main(args):
     iters = 0
     hit_max_iters = False
     while True:
-        mults = {c: 2**s for c, s in scores.items()}
-        scores = {c: sum((2*s - 1) * mults[o] * grand_mult for o, s in data[c].items()) for c in data.keys()}
+        scores = {c: sum((2*s - 1) * 2**scores[o] * grand_mult for o, s in data[c].items()) for c in data.keys()}
         total_abs_score = sum(abs(s) for s in scores.values())
         last_grand_mult = grand_mult
         grand_mult = 1 / total_abs_score
