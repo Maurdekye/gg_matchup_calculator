@@ -1,8 +1,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 from csv import DictReader
-from itertools import *
-from functools import *
+from itertools import dropwhile, accumulate, count
 
 parser = ArgumentParser("Calculate character rankings based on matchup data")
 parser.add_argument("file", type=Path, help="CSV file containing character matchup data")
