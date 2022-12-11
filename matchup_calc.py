@@ -20,10 +20,10 @@ def main(args):
     if hit_max_iters:
         print(f"Did not settle after {iters} iterations! data must be weird owO")
     
-    print(f"""Took {iters} iterations to settle to a grand multiplier of {grand_mult}.
-These are the individual ranking scores:""")
-    for i, (c, s) in enumerate(sorted(scores.items(), key=lambda x:x[1], reverse=True)):
-        print(f"{i+1}. {c}: {s}")
+    print(f"""
+Took {iters} iterations to settle to a grand multiplier of {grand_mult}.
+These are the individual ranking scores:
+""" + '\n'.join(f'{i+1}. {c}: {s}' for i, (c, s) in enumerate(sorted(scores.items(), key=lambda x:x[1], reverse=True))))
 
 if __name__ == "__main__":
     main(parser.parse_args())
