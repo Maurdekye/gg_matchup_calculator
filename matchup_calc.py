@@ -12,21 +12,35 @@ parser.add_argument("--max-iters", type=int, default=1000, help="Max number of i
 def main(args):
     with args.file.open(newline='') as file:
         data = {r['VS'] : {c: float(m)/100 for c, m in r.items() if c not in ['VS', r['VS']]} for r in DictReader(file)}
-    
-    scores = {c: 0 for c in data.keys()}
-    grand_mult = 1
-    iters = 0
-    hit_max_iters = False
-    while True:
-        scores = {c: sum((2*s - 1) * 2**scores[o] * grand_mult for o, s in data[c].items()) for c in data.keys()}
-        last_grand_mult, grand_mult = grand_mult, 1 / sum(abs(s) for s in scores.values())
-        iters += 1
-        if abs(last_grand_mult - grand_mult) < args.max_settle:
-            break
-        if iters >= args.max_iters:
-            hit_max_iters = True
-            break
-    
+
+    scores, grand_mult, _, iters, hit_max_iters = next(dropwhile(
+        lambda params: params[2] >= args.max_settle and not params[4],
+        accumulate(
+            count(1),
+            lambda params, it: (
+                (lambda scores, grand_mult: (
+                    (lambda new_scores: (
+                        (lambda new_grand_mult: (
+                            new_scores,
+                            new_grand_mult,
+                            abs(grand_mult - new_grand_mult),
+                            it,
+                            it >= args.max_iters,
+                        ))(
+                            1 / sum(abs(s) for s in new_scores.values()), 
+                        )
+                    ))(
+                        {c: sum((2*s - 1) * 2**scores[o] * grand_mult for o, s in data[c].items()) for c in data.keys()},
+                    )
+                ))(
+                    params[0],
+                    params[1],
+                )
+            ),
+            initial = ({c: 0 for c in data.keys()}, 1, args.max_settle+1, 0, False),
+        ),
+    ))
+
     if hit_max_iters:
         print(f"Did not settle after {iters} iterations! data must be weird owO")
     
