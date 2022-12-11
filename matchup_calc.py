@@ -19,12 +19,9 @@ def main(args):
     hit_max_iters = False
     while True:
         scores = {c: sum((2*s - 1) * 2**scores[o] * grand_mult for o, s in data[c].items()) for c in data.keys()}
-        total_abs_score = sum(abs(s) for s in scores.values())
-        last_grand_mult = grand_mult
-        grand_mult = 1 / total_abs_score
-        mult_diff = abs(last_grand_mult - grand_mult)
+        last_grand_mult, grand_mult = grand_mult, 1 / sum(abs(s) for s in scores.values())
         iters += 1
-        if mult_diff < args.max_settle:
+        if abs(last_grand_mult - grand_mult) < args.max_settle:
             break
         if iters >= args.max_iters:
             hit_max_iters = True
