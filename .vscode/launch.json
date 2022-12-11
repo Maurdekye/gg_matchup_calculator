@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Top 100",
+            "type": "python",
+            "request": "launch",
+            "program": "matchup_calc.py",
+            "args" : [
+                "matchup_data_top_100.csv",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+        {
+            "name": "Top 1000",
+            "type": "python",
+            "request": "launch",
+            "program": "matchup_calc.py",
+            "args" : [
+                "matchup_data_top_1000.csv",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+        {
+            "name": "Global",
+            "type": "python",
+            "request": "launch",
+            "program": "matchup_calc.py",
+            "args" : [
+                "matchup_data_global.csv",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+        {
+            "name": "Proportional",
+            "type": "python",
+            "request": "launch",
+            "program": "matchup_calc.py",
+            "args" : [
+                "matchup_data_proportional.csv",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+    ]
+}
